@@ -27,11 +27,11 @@ class ProductManager{
             !product.stock||
             !product.id
             ){
-                return 'Todos los campos son obligatorios'
+                console.log('Todos los campos son obligatorios')
             }
         let codigo = this.products.find((prod) => prod.code == product.code)
         if(codigo){
-            return 'El codigo ya existe, ingrese un nuevo codigo'
+            console.log('El codigo ya existe, ingrese un nuevo codigo')
         }else {
             this.products.push(product);
             return this.products;
