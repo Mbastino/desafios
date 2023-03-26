@@ -1,1 +1,1 @@
-[{"title":"Stich Azul","description":"Tejido a crochet","price":5000,"thumbnail":"","code":"SA","stock":20,"id":1}]{"title":"Stich Rosa","description":"Tejido a crochet","price":3000,"thumbnail":"","code":"SR","stock":20,"id":2}]
+[{"title":"Stich Azul","description":"Tejido a crochet","price":5000,"thumbnail":"img1","code":"SA","stock":20,"id":1}]
