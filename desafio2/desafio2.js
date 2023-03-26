@@ -55,16 +55,35 @@ class ProductManager{
         console.log("Producto eliminado")
     }
 
+    updateProducts= async({id, ...producto}) => {
+        await this.deleteProductById(id);
+
+        let productOld = await this.readProducts()
+        let productsModif = [{...producto, id}, ...productOld]
+        await fs.writeFile(this.path, JSON.stringify(productsModif))
+        console.log("Producto modificado")
+
+    }
 
 }
 
 const productos = new ProductManager
 
-/* productos.addProduct('Stich Azul', 'Tejido a crochet', 5000, 'img1', "SA", 20)
-productos.addProduct('Stich Rosa', 'Tejido a crochet', 3000, 'img2', "SR", 20)  */
+/* productos.addProduct('Stich Azul', 'Tejido', 5000, 'img1', "SA", 20)
+productos.addProduct('Stich Rosa', 'Tejido', 3000, 'img2', "SR", 20)  */
 
 //productos.getProducts()
 
 //productos.getProductsById(2)
 
-productos.deleteProductById(2)
+//productos.deleteProductById(2)
+
+productos.updateProducts({
+    title:"Stich Azul", 
+    description:"Tejido",
+    price:7500,
+    thumbnail:"img1",
+    code:"SA",
+    stock:20,
+    id:1
+}) 
