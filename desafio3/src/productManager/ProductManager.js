@@ -1,6 +1,6 @@
 import {promises as fs} from "fs"
 
-class ProductManager{
+export default class ProductManager{
     constructor(){
         this.path = "./productos.txt"
         this.products = []
@@ -67,14 +67,14 @@ class ProductManager{
 
 }
 
-const productos = new ProductManager
+//const productos = new ProductManager
 
 /* productos.addProduct('Stich Azul', 'Lilo & stich', 5000, 'img1', "SA", 20)
 productos.addProduct('Stich Rosa', 'Lilo & stich', 3000, 'img2', "SR", 20)  
 productos.addProduct('Bartolito','Granja de zenon', 2000, 'img3', 'B1', 20)
 productos.addProduct('Percheron','Granja de zenon', 2300, 'img4', 'P1', 20)
 productos.addProduct('Zenon','Granja de zenon', 2800, 'img5', 'Z1', 20) */
-productos.getProducts()
+//productos.getProducts()
 
 //productos.getProductsById(2)
 
