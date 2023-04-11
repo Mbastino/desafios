@@ -1,69 +1,62 @@
-import {promises as fs} from "fs"
+import {promises as fs} from "fs";
+import {nanoid} from "nanoid";
 
 export default class ProductManager{
     constructor(){
-        this.path = "./src/models/productos.json"
-        this.products = []
-
+        this.path = "./src/models/products.json"
     }
-    static id = 0
-
-    addProduct = async(title, description, price, thumbnail, code, stock) => {
-
-        ProductManager.id++
-
-        let newProduct = {
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
-            id: ProductManager.id
-        }
-
-        this.products.push(newProduct)
-
-        await fs.writeFile(this.path, JSON.stringify(this.products))
-    };
 
     readProducts = async() => {
         let consulta =  await fs.readFile(this.path, "utf-8")
         return JSON.parse(consulta)
     };
 
-    getProducts = async() => {
-        let response = await this.readProducts();
-        return console.log(response)
-    };
-    
-    getProductsById = async(id) => {
-        let productById = await this.readProducts();
-        let filter =productById.find(product => product.id === id)
+    writeProducts = async(product) =>{
+        await fs.writeFile(this.path, JSON.stringify(product));
 
-        if (!filter){
-            console.log('Producto no encontrado')
-        }else {
-            console.log(filter)
-        }
+    };
+
+    exist = async (id) => {
+        let product = await this.readProducts();
+        return product.find(product => product.id === id)
+    }
+    
+    addProduct = async(product) => {
+        let productsOld = await this.readProducts();
+        product.id = nanoid()
+        let productAll = [...productsOld, product];
+        await this.writeProducts(productAll);
+        return "Producto agregado";
+    };
+
+    getProducts = async() => {
+        return await this.readProducts()
+    };
+
+    getProductsById = async(id) => {
+        let productById = await this.exist(id)
+
+        if (!productById) return "Producto no encontrado";
+        return productById
     };
 
     deleteProductById = async (id) =>{
-        let respuesta = await this.readProducts();
-        let productFilter = respuesta.filter(products => products.id != id);
-        await fs.writeFile(this.path, JSON.stringify(productFilter));
-        console.log("Producto eliminado")
+        let products = await this.readProducts();
+        let existProducts = products.some(prod => prod.id === id)
+        if(existProducts) {
+            let filterProducts = products.filter(prod => prod.id != id)
+            await this.writeProducts(filterProducts)
+            return "Producto eliminado"
+        }
+        return "Producto inexistente"
     }
 
     updateProducts= async({id, ...producto}) => {
+        let productById = await this.exist(id);
+        if (!productById) return "Producto no encontrado";
         await this.deleteProductById(id);
-
-        let productOld = await this.readProducts()
-        let productsModif = [{...producto, id}, ...productOld]
-        await fs.writeFile(this.path, JSON.stringify(productsModif))
-        console.log("Producto modificado")
-
-    }
+        let products = [{...producto, id : id}]
+    } 
 
 }
 
