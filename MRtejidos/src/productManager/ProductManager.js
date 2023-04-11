@@ -17,8 +17,8 @@ export default class ProductManager{
     };
 
     exist = async (id) => {
-        let product = await this.readProducts();
-        return product.find(product => product.id === id)
+        let products = await this.readProducts();
+        return products.find(product => product.id === id)
     }
     
     addProduct = async(product) => {
@@ -35,9 +35,20 @@ export default class ProductManager{
 
     getProductsById = async(id) => {
         let productById = await this.exist(id)
-
         if (!productById) return "Producto no encontrado";
         return productById
+    };
+
+
+    updateProducts= async(id, product) => {
+        let productById = await this.exist(id);
+        console.log(product)
+        if (!productById) return "Producto no encontrado";
+        await this.deleteProductById(id);
+        let productOld = await this.readProducts()
+        let products = [{...product, id : id}, ...productOld]
+        await this.writeProducts(products)
+        return "Producto actualizado" 
     };
 
     deleteProductById = async (id) =>{
@@ -49,18 +60,7 @@ export default class ProductManager{
             return "Producto eliminado"
         }
         return "Producto inexistente"
-    }
-
-    updateProducts= async({id, ...producto}) => {
-        let productById = await this.exist(id);
-        if (!productById) return "Producto no encontrado";
-        await this.deleteProductById(id);
-        let productOld = await this.readProducts()
-        let products = [{...producto, id : id}, ...productOld]
-        await this.writeProducts(products)
-        return "Producto actualizado"
-    } 
-
+    };
 }
 
 //const productos = new ProductManager
