@@ -55,7 +55,10 @@ export default class ProductManager{
         let productById = await this.exist(id);
         if (!productById) return "Producto no encontrado";
         await this.deleteProductById(id);
-        let products = [{...producto, id : id}]
+        let productOld = await this.readProducts()
+        let products = [{...producto, id : id}, ...productOld]
+        await this.writeProducts(products)
+        return "Producto actualizado"
     } 
 
 }
