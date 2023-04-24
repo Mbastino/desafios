@@ -1,12 +1,11 @@
 {
-  "name": "desafio2",
+  "name": "mrtejidos",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon src/app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -14,10 +13,6 @@
   "dependencies": {
     "express": "^4.18.2",
     "express-handlebars": "^7.0.7",
-    "nanoid": "^4.0.2",
     "socket.io": "^4.6.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.22"
   }
 }
